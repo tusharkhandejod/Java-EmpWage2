@@ -1,66 +1,83 @@
-class EmpWageBuilder{
-	    final int absent=1;
-	    final int isFullTime=1;
-        final int isPartTime=2;
-        private int empRatePerHour;
-        private int totalDays;
-        private int totalHours;
-        private String company;
-        private int totalSalary;
-        
-        EmpWageBuilder(String company,int empRatePerHour,int totalDays,int totalHours){
-        	this.company = company;
-	        this.empRatePerHour = empRatePerHour;
-	        this.totalDays = totalDays;
-	        this.totalHours = totalHours;
-        }
-        public void calculate(){
-	        int hours = 0;
-	        int days = 0;
-	        int salary = 0;
-	        int empHours;
-	        while(hours<=totalHours && days<totalDays){
-	              int check = (int)(Math.floor(Math.random()*10)%3);
-	                switch(check){
-	                case isPartTime:
-	                        empHours = 4;
-	                        break;
-	                case isFullTime:
-	                        empHours = 8;
-	                        break;
-	                default :
-	                        empHours = 0;
-	                }
-	                hours += empHours;
-	                days += 1;
-	                salary = empRatePerHour * empHours;
-	                totalSalary = totalSalary + salary;
-	        }
-        }
-    public String toString(){
-	        return "Total Employee wage for " + company +" is " + (totalSalary);
+//Ability to manage emp wage of multiple companies using array
+
+class CompanyEmpWage {
+	
+	public final String company;
+	public final int empRatePerHour;
+	public final int numOfWorkingDays;
+	public final int maximumHoursPerMonth;
+	public int totalWage;
+
+	public CompanyEmpWage(String company, int empRatePerHour, int numOfWorkingDays, int maximumHoursPerMonth) {
+		this.company = company;
+		this.empRatePerHour = empRatePerHour;
+		this.numOfWorkingDays = numOfWorkingDays;
+		this.maximumHoursPerMonth = maximumHoursPerMonth;
 	}
+	
+	public void setTotalEmpWage(int totalWage){
+		this.totalWage = totalWage;
+	}
+	
+	public String toString() {
+		return "Total Employee Wage for "+company+" is "+totalWage;
+	}
+
 }
-public class UC9EmpWageEachComp{
-	public static void main(String args[]){
-		    EmpWageBuilder Amazon=new EmpWageBuilder("Amazon",150,20,180);
-			Amazon.calculate();
-			System.out.println(Amazon);
+
+public class UC10EmpWageBuilder{
+	public static final int absent=1;
+	public static final int isFullTime=1;
+	public static final int isPartTime=2;
+	private int numOfCompany; 
+	private CompanyEmpWage empWageArray[];  
+	
+	public UC10EmpWageBuilder() {  
+		empWageArray=new CompanyEmpWage[5];
+	}
+	
+	private void addCompanyEmpWage(String company,int empRatePerHour,int numOfWorkingDays,int maximumHoursPerMonth) {
+		empWageArray[numOfCompany]=new CompanyEmpWage(company,empRatePerHour,numOfWorkingDays,maximumHoursPerMonth);
+		numOfCompany++;
+	}
+	
+	private void computeEmpWage() {
+		for(int i=0;i<numOfCompany;i++) {
+			empWageArray[i].setTotalEmpWage(this.computeEmpWage(empWageArray[i]));
+			System.out.println(empWageArray[i]);
 			
-			EmpWageBuilder Microsoft=new EmpWageBuilder("Microsoft",500,24,200);
-        	Microsoft.calculate();
-        	System.out.println(Microsoft);
-        	
-        	EmpWageBuilder Flipkart=new EmpWageBuilder("Flipkart",200,26,230);
-        	Flipkart.calculate();
-        	System.out.println(Flipkart);
-        	
-        	EmpWageBuilder Wipro=new EmpWageBuilder("Wipro",120,28,250);
-        	Wipro.calculate();
-        	System.out.println(Wipro);
-        	
-        	EmpWageBuilder Accenture=new EmpWageBuilder("Accenture",500,24,200);
-        	Accenture.calculate();
-        	System.out.println(Accenture);
+		}
+	}
+	
+	private int computeEmpWage(CompanyEmpWage companyEmpWage) {
+		int empHours=0, totalEmpHours=0, totalWorkingDays=0;
+		 while(totalEmpHours<=companyEmpWage.maximumHoursPerMonth && totalWorkingDays<companyEmpWage.numOfWorkingDays){
+             int check=(int)(Math.floor(Math.random()*10)%3);
+               switch(check){
+               case isPartTime:
+                       empHours = 4;
+                       break;
+               case isFullTime:
+                       empHours = 8;
+                       break;
+               default :
+                       empHours = 0;
+               }
+               totalEmpHours += empHours;
+               totalWorkingDays += 1;
+ }
+		 return totalEmpHours * companyEmpWage.empRatePerHour;
+
+	}
+	
+	public static void main(String args[]) {
+		UC10EmpWageBuilder employeeWageBuilder=new UC10EmpWageBuilder();
+		employeeWageBuilder.addCompanyEmpWage("Amazon", 150, 20, 180);
+		employeeWageBuilder.addCompanyEmpWage("Microsoft", 500, 24, 200);
+		employeeWageBuilder.addCompanyEmpWage("Flipkart", 200, 26, 230);
+		employeeWageBuilder.addCompanyEmpWage("Wipro", 120, 28, 250);
+		employeeWageBuilder.addCompanyEmpWage("Accenture", 500, 22, 200);
+		employeeWageBuilder.computeEmpWage();
+		
 	}
 }
