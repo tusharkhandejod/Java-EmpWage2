@@ -1,40 +1,48 @@
-public class UC5MonthlyWage{
-public static void main(String args[]){
-	wageForMonth wage = new wageForMonth();
+//find the wages till 100 hours and 20 days
+public class UC6MonthlyWagesTillConndition {
+	public static void main(String args[]) {
+		System.out.println("Welcome to the Employee wage program using java");
+		WageDayHour wage = new WageDayHour();
         wage.calculate();
 	}
+
 }
 
-class wageForMonth{
-	final static int absent=0;
-    final static int isFullTime=1;
-    final static int isPartTime=2;
-    int salary = 0;
+class WageDayHour {
+	final int absent= 0;
+	final int isFullTime = 1;
+	final int isPartTime = 2;
     final int empRatePerHour = 20;
-    int empHours = 0;
-    int totalSalary = 0;         
     public void calculate(){
-    	for(int Day=1; Day<=20; Day++){
-    		int salary = 0;
-    		int check=(int)(Math.floor(Math.random()*10)%3);
-            switch(check){
+        int hours = 0;
+        int Days = 0;
+        int empHours;
+        int totalSalary = 0;
+        while(hours<=100 && Days<20){
+        	int salary = 0;  
+        	int check = (int)(Math.floor(Math.random()*10)%3);
+                switch(check){
                 case isPartTime:
-                	    System.out.println("Day   "+Day +"   HalfTime");
+                	    System.out.println("Day   "+(Days+1) +"   HalfTime");
                 	    empHours = 4;
                         break;
-                case isFullTime :
-                	    System.out.println("Day   "+Day +"   FullTime");
+                case isFullTime:
+                	    System.out.println("Day   "+(Days+1) +"   FullTime");
                 	    empHours = 8;
                         break;
                 default :
-                	    System.out.println("Day   "+Day +"   Absent");
+                	    System.out.println("Day   "+(Days+1) +"   Absent");
                 	    empHours = 0;
-            }
-            salary=empRatePerHour*empHours;
-            System.out.println("Sallery=  "+salary);
-            totalSalary += salary;  //salary for 20 days
-    	}
-                System.out.println("Total wage for 20 days: " +totalSalary);
+                }
+                hours += empHours;
+                Days += 1;
+                salary = empRatePerHour*empHours;
+                System.out.println("Sallery=  "+salary);
+                System.out.println("Total hours= "+hours);
+                System.out.println("                    ");
+                totalSalary = totalSalary+salary;
+        }
+        System.out.println("Total Salary based on 20 days and 100 Hours of work is " +totalSalary);
     }
 }
 
