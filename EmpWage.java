@@ -1,29 +1,35 @@
-//Calculate daily wage
-public class UC2EmpDailyWage {
-	public static void main(String[] args) {
-		DailyWage dailywage	= new DailyWage();
-	    dailywage.employeeWage();
+public class UC3PartTime {
+	public static void main(String args[]){
+        Wage wage=new Wage();
+        wage.calculateWage();
 	}
 }
 
 
-class DailyWage{
-	final int present = 1;
-    final int empRatePerHour = 20;
-    final int empHours = 8;
-    public void employeeWage(){       //method for calculating emp salary
+class Wage{
+	final int absent=0;
+	final int fullTime=1;
+	final int partTime=2;
+    final int empRatePerHour=20;
+    int empHours;
+    public void calculateWage(){
     	for(int Day=1;Day<=20;Day++) {
-    	int salary = 0;
-    	int check = (int)(Math.floor(Math.random()*10)%2);
-    	if(present == check){
-    		System.out.println("Employee is present");
-    		salary = empRatePerHour * empHours; //salary for the given hours
-            System.out.println(salary);
-        }
-    else{
-    	    System.out.println("Employee is absent");
-    	    System.out.println(salary);
+    	int salary=0;
+    	int check=(int)(Math.floor(Math.random()*10)%3);
+    	if(check==fullTime) {
+    		System.out.println("Day "+Day);
+    		empHours=8;	
+    	}
+    	else if(check==partTime) {
+    		System.out.println("Day "+Day);
+    		empHours=4;
             }
+    	else if(check==absent) {
+    		System.out.println("Day "+Day);
+    		empHours=0;
+    	}
+    	salary=empRatePerHour*empHours;
+    	System.out.println(salary);
     }
 }
 }
