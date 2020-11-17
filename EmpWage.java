@@ -1,35 +1,36 @@
-public class UC3PartTime {
-	public static void main(String args[]){
-        Wage wage=new Wage();
-        wage.calculateWage();
+//calculation of empwage using switch
+public class UC4EmpWageSwitch{
+	public static void main(String aargs[]){
+        SwitchCaseWage wage = new SwitchCaseWage();
+        wage.calculate();
 	}
 }
 
-
-class Wage{
-	final int absent=0;
-	final int fullTime=1;
-	final int partTime=2;
-    final int empRatePerHour=20;
-    int empHours;
-    public void calculateWage(){
+class SwitchCaseWage{
+	final static int absent=0;
+    final static int isFullTime=1;
+    final static int isPartTime=2;
+    int empRatePerHour = 20;
+    int empHours = 0;
+    public void calculate(){
     	for(int Day=1;Day<=20;Day++) {
-    	int salary=0;
+    	int salary = 0;
     	int check=(int)(Math.floor(Math.random()*10)%3);
-    	if(check==fullTime) {
-    		System.out.println("Day "+Day);
-    		empHours=8;	
-    	}
-    	else if(check==partTime) {
-    		System.out.println("Day "+Day);
-    		empHours=4;
-            }
-    	else if(check==absent) {
-    		System.out.println("Day "+Day);
-    		empHours=0;
-    	}
-    	salary=empRatePerHour*empHours;
-    	System.out.println(salary);
+        switch(check){
+        	case isPartTime :
+        		System.out.println("Day   "+Day +"   HalfTime");
+        		empHours = 4;
+                break;
+            case isFullTime :
+            	System.out.println("Day   "+Day +"   FullTime");
+            	empHours = 8;
+                break;
+            default :
+            	System.out.println("Day   "+Day +"   Absent");
+            	empHours=0;
+        }
+        salary=empRatePerHour*empHours;
+        System.out.println("Sallery=  "+salary);
     }
 }
 }
